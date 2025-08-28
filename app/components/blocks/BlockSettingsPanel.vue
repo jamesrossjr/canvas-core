@@ -3,11 +3,13 @@
     <UCard class="h-full">
       <template #header>
         <div class="flex items-center justify-between">
-          <h3 class="text-lg font-semibold">Block Settings</h3>
+          <h3 class="text-lg font-semibold">
+            Block Settings
+          </h3>
           <UButton icon="i-lucide-x" variant="ghost" @click="$emit('close')" />
         </div>
       </template>
-      
+
       <div class="space-y-4">
         <div class="text-center text-gray-500">
           <UIcon name="i-lucide-settings" class="w-12 h-12 mx-auto mb-2 text-gray-300" />
@@ -28,8 +30,8 @@ interface Props {
 const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  'update': [updates: Partial<Block>]
-  'close': []
+  update: [updates: Partial<Block>]
+  close: []
 }>()
 
 const isOpen = ref(true)

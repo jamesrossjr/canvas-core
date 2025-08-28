@@ -10,7 +10,7 @@
     @keydown="handleKeydown"
   >
     <!-- Block Controls -->
-    <div 
+    <div
       v-if="viewMode === 'edit' && (focused || selected)"
       class="block-controls"
     >
@@ -44,7 +44,7 @@
         @blur="$emit('blur', block.id)"
         @command="handleCommand"
       />
-      
+
       <HeadingBlock
         v-else-if="block.type === 'heading'"
         :block="block as HeadingBlock"
@@ -55,7 +55,7 @@
         @blur="$emit('blur', block.id)"
         @command="handleCommand"
       />
-      
+
       <QuoteBlock
         v-else-if="block.type === 'quote'"
         :block="block as QuoteBlock"
@@ -65,7 +65,7 @@
         @focus="$emit('focus', block.id)"
         @blur="$emit('blur', block.id)"
       />
-      
+
       <CalloutBlock
         v-else-if="block.type === 'callout'"
         :block="block as CalloutBlock"
@@ -75,7 +75,7 @@
         @focus="$emit('focus', block.id)"
         @blur="$emit('blur', block.id)"
       />
-      
+
       <!-- List Blocks -->
       <ListBlock
         v-else-if="block.type === 'list'"
@@ -86,7 +86,7 @@
         @focus="$emit('focus', block.id)"
         @blur="$emit('blur', block.id)"
       />
-      
+
       <TaskListBlock
         v-else-if="block.type === 'task-list'"
         :block="block as TaskListBlock"
@@ -96,7 +96,7 @@
         @focus="$emit('focus', block.id)"
         @blur="$emit('blur', block.id)"
       />
-      
+
       <!-- Code Block -->
       <CodeBlock
         v-else-if="block.type === 'code'"
@@ -107,7 +107,7 @@
         @focus="$emit('focus', block.id)"
         @blur="$emit('blur', block.id)"
       />
-      
+
       <!-- Media Blocks -->
       <ImageBlock
         v-else-if="block.type === 'image'"
@@ -118,7 +118,7 @@
         @focus="$emit('focus', block.id)"
         @blur="$emit('blur', block.id)"
       />
-      
+
       <VideoBlock
         v-else-if="block.type === 'video'"
         :block="block as VideoBlock"
@@ -128,7 +128,7 @@
         @focus="$emit('focus', block.id)"
         @blur="$emit('blur', block.id)"
       />
-      
+
       <AudioBlock
         v-else-if="block.type === 'audio'"
         :block="block as AudioBlock"
@@ -138,7 +138,7 @@
         @focus="$emit('focus', block.id)"
         @blur="$emit('blur', block.id)"
       />
-      
+
       <FileBlock
         v-else-if="block.type === 'file'"
         :block="block as FileBlock"
@@ -148,7 +148,7 @@
         @focus="$emit('focus', block.id)"
         @blur="$emit('blur', block.id)"
       />
-      
+
       <!-- Layout Blocks -->
       <DividerBlock
         v-else-if="block.type === 'divider'"
@@ -159,16 +159,18 @@
         @focus="$emit('focus', block.id)"
         @blur="$emit('blur', block.id)"
       />
-      
+
       <!-- Fallback -->
       <div v-else class="p-4 border border-dashed border-gray-300 dark:border-gray-700 rounded">
-        <p class="text-gray-500 text-sm">Unknown block type: {{ block.type }}</p>
+        <p class="text-gray-500 text-sm">
+          Unknown block type: {{ block.type }}
+        </p>
         <pre class="text-xs mt-2 text-gray-400">{{ JSON.stringify(block.content, null, 2) }}</pre>
       </div>
     </div>
 
     <!-- Block Footer -->
-    <div 
+    <div
       v-if="viewMode === 'edit' && focused"
       class="block-footer mt-2 flex items-center justify-between text-xs text-gray-500"
     >
@@ -178,7 +180,7 @@
           Updated {{ formatTime(block.metadata.updatedAt) }}
         </span>
       </div>
-      
+
       <div class="flex items-center gap-2">
         <UButton
           icon="i-lucide-plus"
@@ -356,12 +358,12 @@ const formatTime = (timestamp: string): string => {
   const date = new Date(timestamp)
   const now = new Date()
   const diff = now.getTime() - date.getTime()
-  
+
   const seconds = Math.floor(diff / 1000)
   const minutes = Math.floor(seconds / 60)
   const hours = Math.floor(minutes / 60)
   const days = Math.floor(hours / 24)
-  
+
   if (days > 0) return `${days}d ago`
   if (hours > 0) return `${hours}h ago`
   if (minutes > 0) return `${minutes}m ago`

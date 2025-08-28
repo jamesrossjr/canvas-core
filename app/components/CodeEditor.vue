@@ -25,7 +25,7 @@ const hasUnsavedChanges = ref(false)
 const language = ref('javascript')
 
 const mockFileContents: Record<string, string> = {
-  'header': `<script setup lang="ts">
+  header: `<script setup lang="ts">
 const props = defineProps<{
   title?: string
   showLogo?: boolean
@@ -44,7 +44,7 @@ const props = defineProps<{
     </div>
   </header>
 </template>`,
-  'sidebar': `<script setup lang="ts">
+  sidebar: `<script setup lang="ts">
 const navigation = [
   { name: 'Dashboard', href: '/', icon: 'home' },
   { name: 'Projects', href: '/projects', icon: 'folder' },
@@ -68,7 +68,7 @@ const navigation = [
     </nav>
   </aside>
 </template>`,
-  'index': `<script setup lang="ts">
+  index: `<script setup lang="ts">
 const { data: posts } = await $fetch('/api/posts')
 </script>
 
@@ -83,7 +83,7 @@ const { data: posts } = await $fetch('/api/posts')
     </div>
   </div>
 </template>`,
-  'about': `<template>
+  about: `<template>
   <div class="max-w-4xl mx-auto py-12 px-4">
     <h1 class="text-3xl font-bold mb-6">About Canvas</h1>
     <div class="prose max-w-none">
@@ -101,7 +101,7 @@ const { data: posts } = await $fetch('/api/posts')
     </div>
   </div>
 </template>`,
-  'main': `import { createApp } from 'vue'
+  main: `import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 
@@ -109,7 +109,7 @@ const app = createApp(App)
 
 app.use(router)
 app.mount('#app')`,
-  'package': `{
+  package: `{
   "name": "canvas-workspace",
   "version": "1.0.0",
   "description": "AI-powered digital workspace",
@@ -124,7 +124,7 @@ app.mount('#app')`,
     "vue": "^3.3.0"
   }
 }`,
-  'readme': `# Canvas Digital Workspace
+  readme: `# Canvas Digital Workspace
 
 An AI-powered digital workspace with block-based editing, real-time collaboration, and intelligent assistance.
 

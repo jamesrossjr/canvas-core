@@ -1,5 +1,6 @@
-import { Server as HTTPServer } from 'http'
-import { Server as SocketIOServer, Socket } from 'socket.io'
+import type { Server as HTTPServer } from 'http'
+import type { Socket } from 'socket.io'
+import { Server as SocketIOServer } from 'socket.io'
 
 interface User {
   id: string
@@ -84,7 +85,7 @@ class CollaborationServer {
   private async handleJoinWorkspace(socket: Socket, { workspaceId, user }: { workspaceId: string, user: User }) {
     // Join the workspace room
     await socket.join(workspaceId)
-    
+
     // Get or create workspace room
     let workspace = this.workspaces.get(workspaceId)
     if (!workspace) {
@@ -204,7 +205,7 @@ class CollaborationServer {
       const user = workspace.users.get(socket.id)
       if (user) {
         workspace.users.delete(socket.id)
-        
+
         // Notify other users
         socket.to(workspaceId).emit('user-left', {
           userId: socket.id,

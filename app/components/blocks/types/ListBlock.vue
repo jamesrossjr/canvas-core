@@ -1,6 +1,8 @@
 <template>
   <div class="list-block">
-    <div class="text-sm text-gray-500 mb-2">List Block (Coming Soon)</div>
+    <div class="text-sm text-gray-500 mb-2">
+      List Block (Coming Soon)
+    </div>
   </div>
 </template>
 
@@ -16,8 +18,8 @@ interface Props {
 const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  'update': [updates: Partial<ListBlock>]
-  'focus': []
-  'blur': []
+  update: [updates: Partial<ListBlock>]
+  focus: []
+  blur: []
 }>()
 </script>

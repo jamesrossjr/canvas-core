@@ -67,20 +67,20 @@ const getStatusText = (user: User) => {
               'w-2 h-2 rounded-full',
               isConnected ? 'bg-green-500' : 'bg-red-500'
             ]"
-          ></div>
+          />
           <h3 class="text-sm font-medium text-gray-900 dark:text-white">
             Collaboration
           </h3>
         </div>
-        <UBadge 
-          :color="isConnected ? 'green' : 'red'" 
-          variant="soft" 
+        <UBadge
+          :color="isConnected ? 'green' : 'red'"
+          variant="soft"
           size="xs"
         >
           {{ userCount }} {{ userCount === 1 ? 'user' : 'users' }}
         </UBadge>
       </div>
-      
+
       <div class="flex items-center gap-1">
         <UButton
           icon="i-lucide-user-plus"
@@ -118,7 +118,9 @@ const getStatusText = (user: User) => {
               {{ currentUser.name }} (You)
             </p>
           </div>
-          <p class="text-xs text-green-500">Active</p>
+          <p class="text-xs text-green-500">
+            Active
+          </p>
         </div>
       </div>
     </div>
@@ -129,7 +131,9 @@ const getStatusText = (user: User) => {
         <div class="text-gray-400 dark:text-gray-500 text-sm">
           <UIcon name="i-lucide-users" class="w-6 h-6 mx-auto mb-2" />
           <p>You're working alone</p>
-          <p class="text-xs mt-1">Invite others to collaborate</p>
+          <p class="text-xs mt-1">
+            Invite others to collaborate
+          </p>
         </div>
       </div>
 
@@ -137,7 +141,9 @@ const getStatusText = (user: User) => {
         <div class="text-red-400 text-sm">
           <UIcon name="i-lucide-wifi-off" class="w-6 h-6 mx-auto mb-2" />
           <p>Disconnected</p>
-          <p class="text-xs mt-1">Trying to reconnect...</p>
+          <p class="text-xs mt-1">
+            Trying to reconnect...
+          </p>
         </div>
       </div>
 
@@ -156,7 +162,7 @@ const getStatusText = (user: User) => {
           >
             <span class="text-xs font-bold text-white">{{ getInitials(user.name) }}</span>
           </div>
-          
+
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2">
               <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
@@ -165,13 +171,13 @@ const getStatusText = (user: User) => {
               <div
                 class="w-2 h-2 rounded-full flex-shrink-0"
                 :style="{ backgroundColor: getUserColor(user.id) }"
-              ></div>
+              />
             </div>
             <p :class="['text-xs', getStatusColor(user)]">
               {{ getStatusText(user) }}
             </p>
           </div>
-          
+
           <div class="flex items-center gap-1">
             <UButton
               icon="i-lucide-message-circle"

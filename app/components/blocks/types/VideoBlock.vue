@@ -1,6 +1,8 @@
 <template>
   <div class="video-block">
-    <div class="text-sm text-gray-500 mb-2">Video Block (Coming Soon)</div>
+    <div class="text-sm text-gray-500 mb-2">
+      Video Block (Coming Soon)
+    </div>
   </div>
 </template>
 
@@ -16,8 +18,8 @@ interface Props {
 const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  'update': [updates: Partial<VideoBlock>]
-  'focus': []
-  'blur': []
+  update: [updates: Partial<VideoBlock>]
+  focus: []
+  blur: []
 }>()
 </script>

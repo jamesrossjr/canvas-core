@@ -14,15 +14,25 @@ const versionHistory = useVersionHistory('doc-1')
 const showVersionHistory = ref(false)
 const versionHistoryWidth = ref(320)
 
-// Mock current user - in real app this would come from auth
-const currentUser = {
-  name: 'Canvas User',
-  avatar: null
+// Get current user from auth
+const auth = useAuth()
+const router = useRouter()
+
+// Redirect if not authenticated
+if (!auth.isAuthenticated.value) {
+  await router.push('/auth/login')
 }
+
+const currentUser = computed(() => ({
+  id: auth.user.value?.id || 'anonymous',
+  name: auth.user.value?.name || 'Canvas User',
+  avatar: auth.user.value?.avatar || null,
+  email: auth.user.value?.email || 'user@example.com'
+}))
 
 // Connect to collaboration on mount
 onMounted(() => {
-  collaboration.connect(currentUser)
+  collaboration.connect(currentUser.value)
   versionHistory.loadVersionHistory()
 })
 
@@ -116,10 +126,10 @@ const document = ref<Document>({
 
 const handleDocumentUpdate = (updatedDocument: Document) => {
   document.value = updatedDocument
-  
+
   // Schedule auto-save
   versionHistory.scheduleAutoSave(updatedDocument)
-  
+
   console.log('Document updated:', updatedDocument)
 }
 
@@ -130,7 +140,7 @@ const handleBlockCreated = (block: Block) => {
 
 const handleBlockUpdated = (block: Block) => {
   console.log('Block updated:', block)
-  
+
   // Send block update to collaborators
   collaboration.sendBlockOperation('block-update', {
     blockId: block.id,
@@ -151,7 +161,7 @@ const handleAIMessage = (message: any) => {
 
 const handleAIAction = (action: string, data?: any) => {
   console.log('AI Action:', action, data)
-  
+
   // Handle AI assistant actions
   switch (action) {
     case 'create-document':
@@ -220,7 +230,7 @@ useHead({
             </div>
           </div>
         </template>
-        
+
         <template #right>
           <div class="flex items-center gap-2">
             <UButton
@@ -239,7 +249,9 @@ useHead({
             >
               Collaborate
               <template v-if="collaboration.userCount.value > 1" #trailing>
-                <UBadge size="xs" color="green">{{ collaboration.userCount.value }}</UBadge>
+                <UBadge size="xs" color="green">
+                  {{ collaboration.userCount.value }}
+                </UBadge>
               </template>
             </UButton>
             <UButton
@@ -250,7 +262,7 @@ useHead({
             >
               History
               <template v-if="versionHistory.hasUnsavedChanges.value" #trailing>
-                <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                <div class="w-2 h-2 bg-yellow-500 rounded-full" />
               </template>
             </UButton>
             <UButton
@@ -275,7 +287,7 @@ useHead({
     </template>
 
     <template #body>
-      <div 
+      <div
         class="h-full flex"
         @mousemove="handleMouseMove"
       >
@@ -337,13 +349,13 @@ useHead({
           </div>
         </div>
       </div>
-      
+
       <!-- Collaboration Cursors -->
       <CollaborationCursors
         :users="collaboration.connectedUsers.value"
         :current-user-id="collaboration.state.currentUser?.id"
       />
-      
+
       <!-- ATHENA AI Assistant -->
       <AthenaAssistant
         @message="handleAIMessage"

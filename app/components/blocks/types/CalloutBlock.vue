@@ -1,16 +1,16 @@
 <template>
-  <div 
+  <div
     class="callout-block p-4 rounded-lg border-l-4"
     :class="calloutClasses"
   >
     <div class="flex items-start gap-3">
       <UIcon :name="calloutIcon" class="w-5 h-5 mt-0.5 flex-shrink-0" />
-      
+
       <div class="flex-1">
         <div v-if="block.content.title" class="font-semibold mb-2">
           {{ block.content.title }}
         </div>
-        
+
         <div
           v-if="viewMode === 'edit'"
           ref="editorRef"
@@ -43,9 +43,9 @@ interface Props {
 const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  'update': [updates: Partial<CalloutBlock>]
-  'focus': []
-  'blur': []
+  update: [updates: Partial<CalloutBlock>]
+  focus: []
+  blur: []
 }>()
 
 const editorRef = ref<HTMLElement>()
@@ -83,7 +83,7 @@ const calloutIcon = computed(() => {
 const handleInput = (event: Event) => {
   const target = event.target as HTMLElement
   const text = target.textContent || ''
-  
+
   emit('update', {
     content: {
       ...props.block.content,

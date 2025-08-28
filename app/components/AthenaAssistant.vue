@@ -1,8 +1,8 @@
 <template>
   <div class="athena-assistant">
     <!-- AI Assistant Container -->
-    <div 
-      ref="athenaContainer" 
+    <div
+      ref="athenaContainer"
       class="athena-3d-container"
       :class="{
         'athena-minimized': isMinimized,
@@ -16,22 +16,22 @@
         class="athena-canvas"
         @click="toggleAssistant"
       />
-      
+
       <!-- Status Indicator -->
-      <div class="athena-status" v-if="status">
-        <div class="status-dot" :class="statusClass"></div>
+      <div v-if="status" class="athena-status">
+        <div class="status-dot" :class="statusClass" />
         <span class="status-text">{{ status }}</span>
       </div>
     </div>
 
     <!-- Chat Interface -->
-    <div 
-      v-if="!isMinimized" 
+    <div
+      v-if="!isMinimized"
       class="athena-chat-interface"
     >
       <!-- Chat Messages -->
-      <div class="chat-messages" ref="chatMessages">
-        <div 
+      <div ref="chatMessages" class="chat-messages">
+        <div
           v-for="message in messages"
           :key="message.id"
           class="message"
@@ -41,18 +41,20 @@
           }"
         >
           <div class="message-avatar">
-            <UIcon 
-              :name="message.role === 'user' ? 'i-lucide-user' : 'i-lucide-sparkles'" 
+            <UIcon
+              :name="message.role === 'user' ? 'i-lucide-user' : 'i-lucide-sparkles'"
               class="w-6 h-6"
               :class="message.role === 'user' ? 'text-blue-500' : 'text-purple-500'"
             />
           </div>
           <div class="message-content">
-            <div class="message-text" v-html="formatMessage(message.content)"></div>
-            <div class="message-time">{{ formatTime(message.timestamp) }}</div>
+            <div class="message-text" v-html="formatMessage(message.content)" />
+            <div class="message-time">
+              {{ formatTime(message.timestamp) }}
+            </div>
           </div>
         </div>
-        
+
         <!-- Typing Indicator -->
         <div v-if="isThinking" class="message message-assistant">
           <div class="message-avatar">
@@ -60,7 +62,7 @@
           </div>
           <div class="message-content">
             <div class="typing-indicator">
-              <span></span><span></span><span></span>
+              <span /><span /><span />
             </div>
           </div>
         </div>
@@ -76,12 +78,12 @@
               class="chat-input"
               :placeholder="inputPlaceholder"
               :disabled="isThinking"
+              rows="1"
               @keydown.enter.prevent="handleEnterKey"
               @input="handleInputChange"
-              rows="1"
             />
           </div>
-          
+
           <div class="flex items-center gap-2">
             <!-- Voice Input Button -->
             <UButton
@@ -89,10 +91,10 @@
               :color="isListening ? 'red' : 'gray'"
               variant="ghost"
               size="sm"
-              @click="toggleVoiceInput"
               :disabled="isThinking"
+              @click="toggleVoiceInput"
             />
-            
+
             <!-- Send Button -->
             <UButton
               icon="i-lucide-send"
@@ -108,7 +110,9 @@
 
     <!-- Quick Actions -->
     <div v-if="!isMinimized && quickActions.length" class="quick-actions">
-      <div class="text-xs text-gray-500 mb-2">Quick Actions</div>
+      <div class="text-xs text-gray-500 mb-2">
+        Quick Actions
+      </div>
       <div class="flex flex-wrap gap-2">
         <UButton
           v-for="action in quickActions"
@@ -151,8 +155,8 @@ interface QuickAction {
 }
 
 const emit = defineEmits<{
-  'message': [message: Message]
-  'action': [action: string, data?: any]
+  message: [message: Message]
+  action: [action: string, data?: any]
 }>()
 
 // Reactive state
@@ -211,41 +215,41 @@ const initThreeJS = () => {
   // Scene setup
   scene = new THREE.Scene()
   scene.background = null // Transparent background
-  
+
   // Camera setup
   camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000)
   camera.position.z = 5
-  
+
   // Renderer setup
-  renderer = new THREE.WebGLRenderer({ 
-    canvas: athenaCanvas.value, 
+  renderer = new THREE.WebGLRenderer({
+    canvas: athenaCanvas.value,
     alpha: true,
     antialias: true
   })
   renderer.setSize(200, 200)
   renderer.setClearColor(0x000000, 0)
-  
+
   // Create ATHENA model (simple geometric representation)
   createAthenaModel()
-  
+
   // Lighting
   const ambientLight = new THREE.AmbientLight(0x404040, 0.6)
   scene.add(ambientLight)
-  
+
   const pointLight = new THREE.PointLight(0x8B5CF6, 1, 100)
   pointLight.position.set(10, 10, 10)
   scene.add(pointLight)
-  
+
   // Start animation
   animate()
 }
 
 const createAthenaModel = () => {
   athenaModel = new THREE.Group()
-  
+
   // Core orb (representing ATHENA's consciousness)
   const orbGeometry = new THREE.SphereGeometry(1, 32, 32)
-  const orbMaterial = new THREE.MeshPhongMaterial({ 
+  const orbMaterial = new THREE.MeshPhongMaterial({
     color: 0x8B5CF6,
     transparent: true,
     opacity: 0.8,
@@ -253,11 +257,11 @@ const createAthenaModel = () => {
   })
   const orb = new THREE.Mesh(orbGeometry, orbMaterial)
   athenaModel.add(orb)
-  
+
   // Floating ring elements
   for (let i = 0; i < 3; i++) {
     const ringGeometry = new THREE.TorusGeometry(1.5 + i * 0.3, 0.05, 8, 32)
-    const ringMaterial = new THREE.MeshPhongMaterial({ 
+    const ringMaterial = new THREE.MeshPhongMaterial({
       color: 0x3B82F6,
       transparent: true,
       opacity: 0.3 - i * 0.05
@@ -267,16 +271,16 @@ const createAthenaModel = () => {
     ring.rotation.z = i * 0.3
     athenaModel.add(ring)
   }
-  
+
   // Particle system for AI thinking effect
   const particlesGeometry = new THREE.BufferGeometry()
   const particlesCount = 50
   const posArray = new Float32Array(particlesCount * 3)
-  
+
   for (let i = 0; i < particlesCount * 3; i++) {
     posArray[i] = (Math.random() - 0.5) * 8
   }
-  
+
   particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3))
   const particlesMaterial = new THREE.PointsMaterial({
     size: 0.02,
@@ -284,25 +288,26 @@ const createAthenaModel = () => {
     transparent: true,
     opacity: 0.5
   })
-  
+
   const particles = new THREE.Points(particlesGeometry, particlesMaterial)
   athenaModel.add(particles)
-  
+
   scene.add(athenaModel)
 }
 
 const animate = () => {
   animationId = requestAnimationFrame(animate)
-  
+
   if (athenaModel) {
     // Base rotation
     athenaModel.rotation.y += 0.01
-    
+
     // Pulsing effect when speaking/thinking
-    const pulse = isSpeaking.value || isThinking.value ? 
-      Math.sin(Date.now() * 0.005) * 0.1 + 1 : 1
+    const pulse = isSpeaking.value || isThinking.value
+      ? Math.sin(Date.now() * 0.005) * 0.1 + 1
+      : 1
     athenaModel.scale.set(pulse, pulse, pulse)
-    
+
     // Ring rotation
     athenaModel.children.forEach((child, index) => {
       if (child.type === 'Mesh' && index > 0 && index < 4) {
@@ -310,33 +315,33 @@ const animate = () => {
       }
     })
   }
-  
+
   renderer.render(scene, camera)
 }
 
 // Message handling
 const sendMessage = async () => {
   if (!currentMessage.value.trim() || isThinking.value) return
-  
+
   const userMessage: Message = {
     id: Date.now().toString(),
     role: 'user',
     content: currentMessage.value,
     timestamp: new Date()
   }
-  
+
   messages.value.push(userMessage)
   emit('message', userMessage)
-  
+
   const messageContent = currentMessage.value
   currentMessage.value = ''
   isThinking.value = true
   status.value = 'Thinking...'
-  
+
   // Scroll to bottom
   await nextTick()
   scrollToBottom()
-  
+
   // Simulate AI response (replace with actual AI integration)
   setTimeout(() => {
     const assistantMessage: Message = {
@@ -345,20 +350,20 @@ const sendMessage = async () => {
       content: generateAIResponse(messageContent),
       timestamp: new Date()
     }
-    
+
     messages.value.push(assistantMessage)
     emit('message', assistantMessage)
-    
+
     isThinking.value = false
     isSpeaking.value = true
     status.value = 'Speaking...'
-    
+
     // Stop speaking after a delay
     setTimeout(() => {
       isSpeaking.value = false
       status.value = 'Ready'
     }, 2000)
-    
+
     scrollToBottom()
   }, 1500)
 }
@@ -371,7 +376,7 @@ const generateAIResponse = (input: string): string => {
     `I can help you with "${input}". Let me break this down for you.`,
     `Great idea about "${input}"! Here are some suggestions...`
   ]
-  
+
   return responses[Math.floor(Math.random() * responses.length)]
 }
 
@@ -392,7 +397,7 @@ const handleInputChange = () => {
 const toggleVoiceInput = () => {
   isListening.value = !isListening.value
   status.value = isListening.value ? 'Listening...' : 'Ready'
-  
+
   if (isListening.value) {
     // Start speech recognition (placeholder)
     console.log('Starting voice recognition...')
@@ -408,7 +413,7 @@ const toggleAssistant = () => {
 
 const executeAction = (action: QuickAction) => {
   emit('action', action.action)
-  
+
   // Add system message
   const systemMessage: Message = {
     id: Date.now().toString(),
@@ -416,7 +421,7 @@ const executeAction = (action: QuickAction) => {
     content: `Executing: ${action.label}`,
     timestamp: new Date()
   }
-  
+
   messages.value.push(systemMessage)
   scrollToBottom()
 }
@@ -445,7 +450,7 @@ const scrollToBottom = () => {
 // Lifecycle
 onMounted(() => {
   initThreeJS()
-  
+
   // Focus input
   if (chatInput.value) {
     chatInput.value.focus()

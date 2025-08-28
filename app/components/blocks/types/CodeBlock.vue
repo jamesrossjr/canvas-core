@@ -18,8 +18,8 @@ interface Props {
 const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  'update': [updates: Partial<CodeBlock>]
-  'focus': []
-  'blur': []
+  update: [updates: Partial<CodeBlock>]
+  focus: []
+  blur: []
 }>()
 </script>

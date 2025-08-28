@@ -1,26 +1,26 @@
-export type BlockType = 
-  | 'text'
-  | 'heading'
-  | 'paragraph'
-  | 'quote'
-  | 'callout'
-  | 'list'
-  | 'task-list'
-  | 'code'
-  | 'image'
-  | 'video'
-  | 'audio'
-  | 'file'
-  | 'table'
-  | 'chart'
-  | 'divider'
-  | 'columns'
-  | 'toggle'
-  | 'accordion'
-  | 'tabs'
-  | 'ai-generated'
-  | 'workspace-link'
-  | 'embed'
+export type BlockType
+  = | 'text'
+    | 'heading'
+    | 'paragraph'
+    | 'quote'
+    | 'callout'
+    | 'list'
+    | 'task-list'
+    | 'code'
+    | 'image'
+    | 'video'
+    | 'audio'
+    | 'file'
+    | 'table'
+    | 'chart'
+    | 'divider'
+    | 'columns'
+    | 'toggle'
+    | 'accordion'
+    | 'tabs'
+    | 'ai-generated'
+    | 'workspace-link'
+    | 'embed'
 
 export interface BlockPosition {
   x?: number
@@ -320,28 +320,28 @@ export interface EmbedBlock extends BaseBlock {
 }
 
 // Union type of all block types
-export type Block = 
-  | TextBlock
-  | HeadingBlock
-  | QuoteBlock
-  | CalloutBlock
-  | ListBlock
-  | TaskListBlock
-  | CodeBlock
-  | ImageBlock
-  | VideoBlock
-  | AudioBlock
-  | FileBlock
-  | TableBlock
-  | ChartBlock
-  | DividerBlock
-  | ColumnsBlock
-  | ToggleBlock
-  | AccordionBlock
-  | TabsBlock
-  | AIGeneratedBlock
-  | WorkspaceLinkBlock
-  | EmbedBlock
+export type Block
+  = | TextBlock
+    | HeadingBlock
+    | QuoteBlock
+    | CalloutBlock
+    | ListBlock
+    | TaskListBlock
+    | CodeBlock
+    | ImageBlock
+    | VideoBlock
+    | AudioBlock
+    | FileBlock
+    | TableBlock
+    | ChartBlock
+    | DividerBlock
+    | ColumnsBlock
+    | ToggleBlock
+    | AccordionBlock
+    | TabsBlock
+    | AIGeneratedBlock
+    | WorkspaceLinkBlock
+    | EmbedBlock
 
 // Document and Workspace Types
 export interface Document {

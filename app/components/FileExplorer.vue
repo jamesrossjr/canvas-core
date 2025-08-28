@@ -77,14 +77,14 @@ const mockFileTree = ref<FileNode[]>([
 
 const toggleFolder = (folder: FileNode) => {
   if (folder.type !== 'folder') return
-  
+
   folder.expanded = !folder.expanded
   if (folder.expanded) {
     expandedFolders.value.add(folder.id)
   } else {
     expandedFolders.value.delete(folder.id)
   }
-  
+
   emit('folderToggled', folder)
 }
 
@@ -97,7 +97,7 @@ const getFileIcon = (file: FileNode) => {
   if (file.type === 'folder') {
     return file.expanded ? 'i-lucide-folder-open' : 'i-lucide-folder'
   }
-  
+
   const ext = file.name.split('.').pop()?.toLowerCase()
   switch (ext) {
     case 'vue': return 'i-logos-vue'
@@ -151,7 +151,9 @@ onBeforeUnmount(() => {
 <template>
   <div class="h-full flex flex-col bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800">
     <div class="flex items-center justify-between p-3 border-b border-gray-200 dark:border-gray-800">
-      <h3 class="text-sm font-medium text-gray-900 dark:text-white">Explorer</h3>
+      <h3 class="text-sm font-medium text-gray-900 dark:text-white">
+        Explorer
+      </h3>
       <div class="flex items-center gap-1">
         <UButton
           icon="i-lucide-file-plus"

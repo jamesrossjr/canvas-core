@@ -135,7 +135,7 @@ useHead({
             </div>
           </div>
         </template>
-        
+
         <template #right>
           <div class="flex items-center gap-2">
             <UButton
@@ -263,7 +263,7 @@ useHead({
           </div>
         </div>
       </div>
-      
+
       <!-- ATHENA AI Assistant -->
       <AthenaAssistant />
     </template>

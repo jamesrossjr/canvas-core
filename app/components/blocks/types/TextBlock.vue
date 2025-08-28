@@ -17,11 +17,11 @@
     >
       {{ block.content.text || '' }}
     </div>
-    
+
     <div v-else class="text-preview" v-html="formattedText" />
-    
+
     <!-- Placeholder -->
-    <div 
+    <div
       v-if="viewMode === 'edit' && !block.content.text && focused"
       class="text-placeholder"
     >
@@ -43,36 +43,36 @@ interface Props {
 const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  'update': [updates: Partial<TextBlock>]
-  'focus': []
-  'blur': []
-  'command': [command: any]
+  update: [updates: Partial<TextBlock>]
+  focus: []
+  blur: []
+  command: [command: any]
 }>()
 
 const editorRef = ref<HTMLElement>()
 
 const formattedText = computed(() => {
   if (!props.block.content.text) return ''
-  
+
   // Simple markdown-like formatting
   let text = props.block.content.text
   text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
   text = text.replace(/\*(.*?)\*/g, '<em>$1</em>')
   text = text.replace(/`(.*?)`/g, '<code class="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm">$1</code>')
-  
+
   return text
 })
 
 const handleInput = (event: Event) => {
   const target = event.target as HTMLElement
   const text = target.textContent || ''
-  
+
   // Check for slash commands
   if (text.endsWith('/')) {
     emit('command', { type: 'slash-menu', position: getCursorPosition() })
     return
   }
-  
+
   // Update block content
   emit('update', {
     content: {
@@ -85,7 +85,7 @@ const handleInput = (event: Event) => {
 const handleKeydown = (event: KeyboardEvent) => {
   const target = event.target as HTMLElement
   const text = target.textContent || ''
-  
+
   switch (event.key) {
     case 'Enter':
       if (!event.shiftKey) {
@@ -98,14 +98,14 @@ const handleKeydown = (event: KeyboardEvent) => {
         }
       }
       break
-      
+
     case 'Backspace':
       if (text === '' && getCursorPosition() === 0) {
         event.preventDefault()
         emit('command', { type: 'delete' })
       }
       break
-      
+
     case '/':
       if (text === '') {
         // Show slash command menu on empty line
@@ -114,7 +114,7 @@ const handleKeydown = (event: KeyboardEvent) => {
         }, 0)
       }
       break
-      
+
     case ' ':
       // Handle markdown shortcuts
       if (text.endsWith('#')) {
@@ -139,21 +139,21 @@ const handleKeydown = (event: KeyboardEvent) => {
 
 const handlePaste = (event: ClipboardEvent) => {
   event.preventDefault()
-  
+
   const paste = event.clipboardData?.getData('text/plain') || ''
   const selection = window.getSelection()
-  
+
   if (selection && selection.rangeCount > 0) {
     const range = selection.getRangeAt(0)
     range.deleteContents()
     range.insertNode(document.createTextNode(paste))
-    
+
     // Move cursor to end of pasted text
     range.setStartAfter(range.endContainer)
     range.collapse(true)
     selection.removeAllRanges()
     selection.addRange(range)
-    
+
     // Update content
     const target = event.target as HTMLElement
     const text = target.textContent || ''
@@ -169,7 +169,7 @@ const handlePaste = (event: ClipboardEvent) => {
 const getCursorPosition = (): number => {
   const selection = window.getSelection()
   if (!selection || selection.rangeCount === 0) return 0
-  
+
   const range = selection.getRangeAt(0)
   return range.startOffset
 }

@@ -76,7 +76,7 @@ export const useVersionHistory = (documentId: string) => {
           size: 1792
         }
       ]
-      
+
       state.versions = mockVersions
       state.currentVersion = mockVersions.length
     } catch (error) {
@@ -88,7 +88,7 @@ export const useVersionHistory = (documentId: string) => {
 
   // Save a new version
   const saveVersion = async (
-    document: Document, 
+    document: Document,
     changeType: DocumentVersion['changeType'] = 'manual',
     changeDescription?: string
   ) => {
@@ -177,7 +177,7 @@ export const useVersionHistory = (documentId: string) => {
   const compareVersions = (version1Id: string, version2Id: string) => {
     const v1 = state.versions.find(v => v.id === version1Id)
     const v2 = state.versions.find(v => v.id === version2Id)
-    
+
     if (!v1 || !v2) {
       console.error('One or both versions not found')
       return null
@@ -201,7 +201,7 @@ export const useVersionHistory = (documentId: string) => {
   // Get version diff
   const getVersionDiff = (versionId: string, compareToId?: string) => {
     const version = state.versions.find(v => v.id === versionId)
-    const compareVersion = compareToId 
+    const compareVersion = compareToId
       ? state.versions.find(v => v.id === compareToId)
       : state.versions.find(v => v.version === version!.version - 1)
 
@@ -227,12 +227,12 @@ export const useVersionHistory = (documentId: string) => {
   })
 
   // Computed properties
-  const latestVersion = computed(() => 
+  const latestVersion = computed(() =>
     state.versions.length > 0 ? state.versions[state.versions.length - 1] : null
   )
 
-  const versionsSortedByDate = computed(() => 
-    [...state.versions].sort((a, b) => 
+  const versionsSortedByDate = computed(() =>
+    [...state.versions].sort((a, b) =>
       new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     )
   )
@@ -244,7 +244,7 @@ export const useVersionHistory = (documentId: string) => {
     const now = new Date().getTime()
     const lastSave = new Date(state.lastSaved).getTime()
     const diff = now - lastSave
-    
+
     if (diff < 60000) return 'Just now'
     if (diff < 3600000) return `${Math.floor(diff / 60000)}m ago`
     if (diff < 86400000) return `${Math.floor(diff / 3600000)}h ago`
@@ -254,7 +254,7 @@ export const useVersionHistory = (documentId: string) => {
   return {
     // State
     state: readonly(state),
-    
+
     // Methods
     loadVersionHistory,
     saveVersion,
@@ -264,7 +264,7 @@ export const useVersionHistory = (documentId: string) => {
     compareVersions,
     getVersionDiff,
     toggleAutoSave,
-    
+
     // Computed
     latestVersion,
     versionsSortedByDate,

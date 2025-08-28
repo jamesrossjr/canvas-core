@@ -16,7 +16,7 @@
         {{ block.content.text || 'Empty quote' }}
       </div>
     </blockquote>
-    
+
     <div v-if="block.content.author" class="mt-2 text-sm text-gray-500">
       — {{ block.content.author }}
     </div>
@@ -36,9 +36,9 @@ interface Props {
 const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  'update': [updates: Partial<QuoteBlock>]
-  'focus': []
-  'blur': []
+  update: [updates: Partial<QuoteBlock>]
+  focus: []
+  blur: []
 }>()
 
 const editorRef = ref<HTMLElement>()
@@ -46,7 +46,7 @@ const editorRef = ref<HTMLElement>()
 const handleInput = (event: Event) => {
   const target = event.target as HTMLElement
   const text = target.textContent || ''
-  
+
   emit('update', {
     content: {
       ...props.block.content,

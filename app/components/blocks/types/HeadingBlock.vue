@@ -1,6 +1,6 @@
 <template>
   <div class="heading-block">
-    <div class="flex items-center gap-2" v-if="viewMode === 'edit'">
+    <div v-if="viewMode === 'edit'" class="flex items-center gap-2">
       <!-- Heading Level Selector -->
       <UDropdown
         v-if="focused"
@@ -14,7 +14,7 @@
           class="text-xs font-mono"
         />
       </UDropdown>
-      
+
       <!-- Editable Heading -->
       <component
         :is="headingTag"
@@ -31,19 +31,19 @@
         {{ block.content.text || '' }}
       </component>
     </div>
-    
+
     <!-- Preview Mode -->
     <component
-      v-else
       :is="headingTag"
+      v-else
       :class="headingClasses"
       class="heading-preview"
     >
       {{ block.content.text || 'Untitled Heading' }}
     </component>
-    
+
     <!-- Placeholder -->
-    <div 
+    <div
       v-if="viewMode === 'edit' && !block.content.text && focused"
       class="heading-placeholder"
     >
@@ -65,10 +65,10 @@ interface Props {
 const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  'update': [updates: Partial<HeadingBlock>]
-  'focus': []
-  'blur': []
-  'command': [command: any]
+  update: [updates: Partial<HeadingBlock>]
+  focus: []
+  blur: []
+  command: [command: any]
 }>()
 
 const editorRef = ref<HTMLElement>()
@@ -78,7 +78,7 @@ const headingTag = computed(() => `h${props.block.content.level}`)
 const headingClasses = computed(() => {
   const level = props.block.content.level
   const baseClasses = 'font-bold text-gray-900 dark:text-white leading-tight'
-  
+
   switch (level) {
     case 1:
       return `${baseClasses} text-3xl`
@@ -104,7 +104,7 @@ const headingLevels = computed(() => [
     active: props.block.content.level === 1
   },
   {
-    label: 'Heading 2', 
+    label: 'Heading 2',
     click: () => updateLevel(2),
     active: props.block.content.level === 2
   },
@@ -133,7 +133,7 @@ const headingLevels = computed(() => [
 const handleInput = (event: Event) => {
   const target = event.target as HTMLElement
   const text = target.textContent || ''
-  
+
   emit('update', {
     content: {
       ...props.block.content,
@@ -146,7 +146,7 @@ const handleInput = (event: Event) => {
 const handleKeydown = (event: KeyboardEvent) => {
   const target = event.target as HTMLElement
   const text = target.textContent || ''
-  
+
   switch (event.key) {
     case 'Enter':
       if (!event.shiftKey) {
@@ -154,14 +154,14 @@ const handleKeydown = (event: KeyboardEvent) => {
         emit('command', { type: 'create-below', blockType: 'paragraph' })
       }
       break
-      
+
     case 'Backspace':
       if (text === '' && getCursorPosition() === 0) {
         event.preventDefault()
         emit('command', { type: 'convert', blockType: 'paragraph' })
       }
       break
-      
+
     case '1':
     case '2':
     case '3':
@@ -178,21 +178,21 @@ const handleKeydown = (event: KeyboardEvent) => {
 
 const handlePaste = (event: ClipboardEvent) => {
   event.preventDefault()
-  
+
   const paste = event.clipboardData?.getData('text/plain') || ''
   const selection = window.getSelection()
-  
+
   if (selection && selection.rangeCount > 0) {
     const range = selection.getRangeAt(0)
     range.deleteContents()
     range.insertNode(document.createTextNode(paste))
-    
+
     // Move cursor to end of pasted text
     range.setStartAfter(range.endContainer)
     range.collapse(true)
     selection.removeAllRanges()
     selection.addRange(range)
-    
+
     // Update content
     const target = event.target as HTMLElement
     const text = target.textContent || ''
@@ -226,7 +226,7 @@ const generateAnchor = (text: string): string => {
 const getCursorPosition = (): number => {
   const selection = window.getSelection()
   if (!selection || selection.rangeCount === 0) return 0
-  
+
   const range = selection.getRangeAt(0)
   return range.startOffset
 }

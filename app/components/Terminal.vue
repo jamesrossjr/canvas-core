@@ -92,7 +92,7 @@ const initializeTerminal = () => {
   // Handle terminal input
   terminal.value.onData((data) => {
     const code = data.charCodeAt(0)
-    
+
     if (code === 13) { // Enter
       terminal.value.writeln('')
       processCommand(currentLine.trim())
@@ -130,18 +130,18 @@ const writePrompt = () => {
 
 const navigateHistory = (direction: number) => {
   if (commandHistory.value.length === 0) return
-  
+
   if (historyIndex === -1 && direction === -1) {
     historyIndex = commandHistory.value.length - 1
   } else {
     historyIndex = Math.max(0, Math.min(commandHistory.value.length - 1, historyIndex + direction))
   }
-  
+
   if (historyIndex >= 0 && historyIndex < commandHistory.value.length) {
     // Clear current line
     terminal.value?.write('\r\x1b[K')
     writePrompt()
-    
+
     currentLine = commandHistory.value[historyIndex]
     terminal.value?.write(currentLine)
   }
@@ -152,10 +152,10 @@ const processCommand = (command: string) => {
     commandHistory.value.push(command)
     emit('command', command)
   }
-  
+
   const args = command.split(' ')
   const cmd = args[0].toLowerCase()
-  
+
   switch (cmd) {
     case '':
       break
@@ -205,7 +205,7 @@ const processCommand = (command: string) => {
       terminal.value?.writeln(`Type 'help' for available commands`)
       break
   }
-  
+
   writePrompt()
 }
 
@@ -225,7 +225,7 @@ const showHelp = () => {
     { cmd: 'git <args>', desc: 'Git version control' },
     { cmd: 'node <file>', desc: 'Run Node.js script' }
   ]
-  
+
   terminal.value?.writeln('\x1b[1;33mAvailable Commands:\x1b[0m')
   commands.forEach(({ cmd, desc }) => {
     terminal.value?.writeln(`  \x1b[1;36m${cmd.padEnd(15)}\x1b[0m ${desc}`)
@@ -235,13 +235,13 @@ const showHelp = () => {
 const listFiles = (path?: string) => {
   const targetPath = path ? resolvePath(path) : currentPath.value
   const files = mockFileSystem[targetPath as keyof typeof mockFileSystem] || []
-  
+
   if (files.length === 0) {
     terminal.value?.writeln(`\x1b[1;31mDirectory not found: ${targetPath}\x1b[0m`)
     return
   }
-  
-  files.forEach(file => {
+
+  files.forEach((file) => {
     const isDir = mockFileSystem[`${targetPath}/${file}` as keyof typeof mockFileSystem]
     const color = isDir ? '\x1b[1;34m' : '\x1b[0m'
     const icon = isDir ? '📁' : '📄'
@@ -254,7 +254,7 @@ const changeDirectory = (path?: string) => {
     currentPath.value = '~/workspace'
     return
   }
-  
+
   const targetPath = resolvePath(path)
   if (mockFileSystem[targetPath as keyof typeof mockFileSystem]) {
     currentPath.value = targetPath
@@ -278,13 +278,13 @@ const showFileContent = (filename?: string) => {
     terminal.value?.writeln(`\x1b[1;31mUsage: cat <filename>\x1b[0m`)
     return
   }
-  
+
   const mockContent = {
     'package.json': '{\n  "name": "canvas-workspace",\n  "version": "1.0.0",\n  "scripts": {\n    "dev": "nuxt dev"\n  }\n}',
     'README.md': '# Canvas Workspace\n\nAI-powered digital workspace\n\n## Getting Started\n\n```bash\npnpm dev\n```',
     'main.ts': 'import { createApp } from \'vue\'\nimport App from \'./App.vue\'\n\nconst app = createApp(App)\napp.mount(\'#app\')'
   }
-  
+
   const content = mockContent[filename as keyof typeof mockContent]
   if (content) {
     terminal.value?.writeln(content)
@@ -320,7 +320,7 @@ const removeFile = (filename?: string) => {
 const runPackageManager = (manager: string, args: string[]) => {
   const command = `${manager} ${args.join(' ')}`
   terminal.value?.writeln(`\x1b[1;36mRunning: ${command}\x1b[0m`)
-  
+
   setTimeout(() => {
     if (args[0] === 'install' || args[0] === 'i') {
       terminal.value?.writeln(`\x1b[1;32m✓ Dependencies installed successfully\x1b[0m`)
@@ -338,7 +338,7 @@ const runPackageManager = (manager: string, args: string[]) => {
 const runGitCommand = (args: string[]) => {
   const command = `git ${args.join(' ')}`
   terminal.value?.writeln(`\x1b[1;36mRunning: ${command}\x1b[0m`)
-  
+
   setTimeout(() => {
     if (args[0] === 'status') {
       terminal.value?.writeln(`On branch main`)
@@ -370,7 +370,7 @@ onMounted(() => {
   nextTick(() => {
     initializeTerminal()
   })
-  
+
   window.addEventListener('resize', resize)
 })
 
@@ -396,9 +396,9 @@ watch(() => props.theme, () => {
       <div class="flex items-center gap-2">
         <UIcon name="i-lucide-terminal" class="w-4 h-4" />
         <span class="text-sm font-medium">Terminal</span>
-        <UBadge 
-          :color="isConnected ? 'green' : 'red'" 
-          variant="soft" 
+        <UBadge
+          :color="isConnected ? 'green' : 'red'"
+          variant="soft"
           size="xs"
         >
           {{ isConnected ? 'Connected' : 'Disconnected' }}
@@ -425,7 +425,7 @@ watch(() => props.theme, () => {
         />
       </div>
     </div>
-    
+
     <div
       ref="terminalRef"
       class="flex-1 p-2 overflow-hidden"

@@ -25,7 +25,7 @@ const cursorColors = [
   '#06b6d4', // cyan
   '#3b82f6', // blue
   '#8b5cf6', // violet
-  '#ec4899', // pink
+  '#ec4899' // pink
 ]
 
 const getUserColor = (userId: string) => {
@@ -75,7 +75,7 @@ const getInitials = (name: string) => {
             stroke-width="1"
           />
         </svg>
-        
+
         <!-- User Label -->
         <div
           class="absolute top-5 left-2 pointer-events-auto"
@@ -99,9 +99,9 @@ const getInitials = (name: string) => {
               v-if="user.isTyping"
               class="flex gap-0.5"
             >
-              <div class="w-1 h-1 bg-white/60 rounded-full animate-pulse"></div>
-              <div class="w-1 h-1 bg-white/60 rounded-full animate-pulse" style="animation-delay: 0.1s"></div>
-              <div class="w-1 h-1 bg-white/60 rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
+              <div class="w-1 h-1 bg-white/60 rounded-full animate-pulse" />
+              <div class="w-1 h-1 bg-white/60 rounded-full animate-pulse" style="animation-delay: 0.1s" />
+              <div class="w-1 h-1 bg-white/60 rounded-full animate-pulse" style="animation-delay: 0.2s" />
             </div>
           </div>
         </div>
@@ -119,12 +119,12 @@ const getInitials = (name: string) => {
         <div
           class="w-3 h-3 rounded-full flex-shrink-0"
           :style="{ backgroundColor: getUserColor(user.id) }"
-        ></div>
+        />
         <span class="text-xs text-gray-600 dark:text-gray-400">{{ user.name }} is typing...</span>
         <div class="flex gap-0.5">
-          <div class="w-1 h-1 bg-gray-400 rounded-full animate-pulse"></div>
-          <div class="w-1 h-1 bg-gray-400 rounded-full animate-pulse" style="animation-delay: 0.1s"></div>
-          <div class="w-1 h-1 bg-gray-400 rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
+          <div class="w-1 h-1 bg-gray-400 rounded-full animate-pulse" />
+          <div class="w-1 h-1 bg-gray-400 rounded-full animate-pulse" style="animation-delay: 0.1s" />
+          <div class="w-1 h-1 bg-gray-400 rounded-full animate-pulse" style="animation-delay: 0.2s" />
         </div>
       </div>
     </div>

@@ -87,7 +87,7 @@ const quickChats = [
       </UContainer>
     </template>
   </UDashboardPanel>
-  
+
   <!-- ATHENA AI Assistant -->
   <AthenaAssistant />
 </template>

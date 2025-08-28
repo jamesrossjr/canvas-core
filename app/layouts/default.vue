@@ -4,7 +4,7 @@ import { LazyModalConfirm, LazyProCommandCenter } from '#components'
 const route = useRoute()
 const toast = useToast()
 const overlay = useOverlay()
-const { loggedIn, openInPopup } = useUserSession()
+const auth = useAuth()
 
 const open = ref(false)
 
@@ -34,7 +34,7 @@ onNuxtReady(async () => {
   }
 })
 
-watch(loggedIn, () => {
+watch(() => auth.isAuthenticated.value, () => {
   refreshChats()
 
   open.value = false
@@ -82,10 +82,10 @@ defineShortcuts({
   c: () => {
     navigateTo('/')
   },
-  'cmd_k': () => {
+  cmd_k: () => {
     commandCenter.value?.open()
   },
-  'ctrl_k': () => {
+  ctrl_k: () => {
     commandCenter.value?.open()
   }
 })
@@ -178,15 +178,15 @@ const handleCommandExecute = (command: any) => {
       </template>
 
       <template #footer="{ collapsed }">
-        <UserMenu v-if="loggedIn" :collapsed="collapsed" />
+        <UserProfile v-if="auth.isAuthenticated.value" />
         <UButton
           v-else
-          :label="collapsed ? '' : 'Login with GitHub'"
-          icon="i-simple-icons-github"
+          :label="collapsed ? '' : 'Login with Supabase'"
+          icon="i-lucide-log-in"
           color="neutral"
           variant="ghost"
           class="w-full"
-          @click="openInPopup('/auth/github')"
+          to="/auth/login"
         />
       </template>
     </UDashboardSidebar>
@@ -204,7 +204,7 @@ const handleCommandExecute = (command: any) => {
     />
 
     <slot />
-    
+
     <!-- ProCommandCenter -->
     <LazyProCommandCenter ref="commandCenter" @execute="handleCommandExecute" />
   </UDashboardGroup>

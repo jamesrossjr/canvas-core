@@ -1,19 +1,21 @@
 <template>
-  <div class="block-editor" ref="editorRef">
+  <div ref="editorRef" class="block-editor">
     <!-- Editor Header -->
     <div v-if="showHeader" class="editor-header border-b border-gray-200 dark:border-gray-800 p-4">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-4">
-          <h1 v-if="document?.title" class="text-xl font-semibold">{{ document.title }}</h1>
+          <h1 v-if="document?.title" class="text-xl font-semibold">
+            {{ document.title }}
+          </h1>
           <input
             v-else
             v-model="documentTitle"
             class="text-xl font-semibold bg-transparent border-0 focus:outline-none focus:ring-0 placeholder-gray-400"
             placeholder="Untitled Document"
             @blur="updateDocumentTitle"
-          />
+          >
         </div>
-        
+
         <div class="flex items-center gap-2">
           <!-- Template Selector -->
           <UButton
@@ -24,7 +26,7 @@
           >
             Templates
           </UButton>
-          
+
           <!-- View Toggle -->
           <UButtonGroup size="sm">
             <UButton
@@ -47,7 +49,7 @@
     </div>
 
     <!-- Blocks Container -->
-    <div 
+    <div
       class="blocks-container p-4 min-h-screen"
       :class="{
         'preview-mode': viewMode === 'preview',
@@ -59,9 +61,13 @@
       <div v-if="!blocks.length" class="empty-state">
         <div class="text-center py-12">
           <UIcon name="i-lucide-file-plus" class="w-12 h-12 mx-auto mb-4 text-gray-300" />
-          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Start creating</h3>
-          <p class="text-gray-500 mb-4">Press '/' to see available blocks or start typing</p>
-          <UButton @click="createBlock('paragraph', 0)" variant="outline">
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+            Start creating
+          </h3>
+          <p class="text-gray-500 mb-4">
+            Press '/' to see available blocks or start typing
+          </p>
+          <UButton variant="outline" @click="createBlock('paragraph', 0)">
             Add your first block
           </UButton>
         </div>
@@ -191,7 +197,7 @@ const createBlock = (type: BlockType, position: number, content?: any) => {
   } as Block
 
   // Adjust positions of existing blocks
-  blocks.value.forEach(block => {
+  blocks.value.forEach((block) => {
     if (block.position.order >= position) {
       block.position.order++
     }
@@ -199,7 +205,7 @@ const createBlock = (type: BlockType, position: number, content?: any) => {
 
   blocks.value.push(newBlock)
   emit('block-created', newBlock)
-  
+
   // Focus the new block
   nextTick(() => {
     focusBlock(newBlock.id)
@@ -232,16 +238,16 @@ const deleteBlock = (blockId: string) => {
 
   const deletedBlock = blocks.value[blockIndex]
   blocks.value.splice(blockIndex, 1)
-  
+
   // Adjust positions
-  blocks.value.forEach(block => {
+  blocks.value.forEach((block) => {
     if (block.position.order > deletedBlock.position.order) {
       block.position.order--
     }
   })
 
   emit('block-deleted', blockId)
-  
+
   // Clear selection if deleted block was selected
   selectedBlocks.value = selectedBlocks.value.filter(id => id !== blockId)
   if (focusedBlockId.value === blockId) {
@@ -274,7 +280,7 @@ const moveBlockUp = (blockId: string) => {
 
   const targetOrder = block.position.order - 1
   const targetBlock = blocks.value.find(b => b.position.order === targetOrder)
-  
+
   if (targetBlock) {
     targetBlock.position.order++
     block.position.order--
@@ -287,7 +293,7 @@ const moveBlockDown = (blockId: string) => {
 
   const targetOrder = block.position.order + 1
   const targetBlock = blocks.value.find(b => b.position.order === targetOrder)
-  
+
   if (targetBlock) {
     targetBlock.position.order--
     block.position.order++
@@ -297,14 +303,14 @@ const moveBlockDown = (blockId: string) => {
 const createBlockAbove = (blockId: string, type: BlockType = 'paragraph') => {
   const block = blocks.value.find(b => b.id === blockId)
   if (!block) return
-  
+
   createBlock(type, block.position.order)
 }
 
 const createBlockBelow = (blockId: string, type: BlockType = 'paragraph') => {
   const block = blocks.value.find(b => b.id === blockId)
   if (!block) return
-  
+
   createBlock(type, block.position.order + 1)
 }
 
@@ -358,12 +364,12 @@ const closeSlashMenu = () => {
 const applyTemplate = (template: any) => {
   // Clear existing blocks
   blocks.value = []
-  
+
   // Add template blocks
   template.blocks.forEach((templateBlock: any, index: number) => {
     createBlock(templateBlock.type, index, templateBlock.content)
   })
-  
+
   showTemplates.value = false
 }
 

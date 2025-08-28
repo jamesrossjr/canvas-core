@@ -1,4 +1,5 @@
-import { io, Socket } from 'socket.io-client'
+import type { Socket } from 'socket.io-client'
+import { io } from 'socket.io-client'
 import type { Block, Document } from '~/shared/types/blocks'
 
 interface User {
@@ -57,7 +58,7 @@ export const useCollaboration = (workspaceId: string) => {
     state.socket.on('connect', () => {
       console.log('Connected to collaboration server')
       state.isConnected = true
-      
+
       if (state.currentUser) {
         state.currentUser.id = state.socket!.id
       }
@@ -90,7 +91,7 @@ export const useCollaboration = (workspaceId: string) => {
     state.socket.on('workspace-state', (data: { users: User[], activeDocument?: string }) => {
       console.log('Received workspace state:', data)
       state.users.clear()
-      data.users.forEach(user => {
+      data.users.forEach((user) => {
         state.users.set(user.id, user)
       })
       emit('workspace-state', data)
@@ -228,7 +229,7 @@ export const useCollaboration = (workspaceId: string) => {
       case 'block-update':
         // Apply block content changes
         return operation.data
-      
+
       default:
         return null
     }
@@ -238,7 +239,7 @@ export const useCollaboration = (workspaceId: string) => {
   const transformOperation = (op1: any, op2: any) => {
     // Simple implementation - in production you'd use a proper OT library
     // like ShareJS, Yjs, or implement your own OT algorithm
-    
+
     if (op1.blockId !== op2.blockId) {
       return [op1, op2] // No conflict if different blocks
     }
@@ -259,11 +260,11 @@ export const useCollaboration = (workspaceId: string) => {
   return {
     // State
     state: readonly(state),
-    
+
     // Connection methods
     connect,
     disconnect,
-    
+
     // Collaboration methods
     sendBlockOperation,
     updateCursor,
@@ -272,11 +273,11 @@ export const useCollaboration = (workspaceId: string) => {
     stopTyping,
     applyBlockOperation,
     transformOperation,
-    
+
     // Event system
     on,
     off,
-    
+
     // Computed properties
     connectedUsers: computed(() => Array.from(state.users.values())),
     isCollaborating: computed(() => state.isConnected && state.users.size > 0),

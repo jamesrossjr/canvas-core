@@ -29,7 +29,7 @@ const getFileIcon = (file: FileNode) => {
   if (file.type === 'folder') {
     return file.expanded ? 'i-lucide-folder-open' : 'i-lucide-folder'
   }
-  
+
   const ext = file.name.split('.').pop()?.toLowerCase()
   switch (ext) {
     case 'vue': return 'i-logos-vue'
@@ -78,15 +78,15 @@ const handleContextMenu = (event: MouseEvent) => {
         class="w-3 h-3 text-gray-500"
       />
       <div v-else class="w-3" />
-      
+
       <UIcon
         :name="getFileIcon(node)"
         class="w-4 h-4 flex-shrink-0"
       />
-      
+
       <span class="flex-1 truncate">{{ node.name }}</span>
     </div>
-    
+
     <div v-if="node.type === 'folder' && node.expanded && node.children">
       <FileExplorerNode
         v-for="child in node.children"

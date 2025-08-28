@@ -1,9 +1,9 @@
 <template>
   <div class="divider-block py-4">
-    <hr 
+    <hr
       class="border-0 h-px"
       :class="dividerClasses"
-    />
+    >
   </div>
 </template>
 
@@ -20,15 +20,15 @@ interface Props {
 const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  'update': [updates: Partial<DividerBlock>]
-  'focus': []
-  'blur': []
+  update: [updates: Partial<DividerBlock>]
+  focus: []
+  blur: []
 }>()
 
 const dividerClasses = computed(() => {
   const style = props.block.content.style || 'line'
   const baseClasses = 'bg-gray-300 dark:bg-gray-600'
-  
+
   switch (style) {
     case 'dashed':
       return `${baseClasses} border-dashed border-t`

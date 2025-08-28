@@ -4,9 +4,11 @@
     :style="{ left: `${position.x}px`, top: `${position.y}px` }"
   >
     <div class="p-2 border-b border-gray-200 dark:border-gray-700">
-      <div class="text-xs text-gray-500 uppercase font-semibold">Blocks</div>
+      <div class="text-xs text-gray-500 uppercase font-semibold">
+        Blocks
+      </div>
     </div>
-    
+
     <div class="max-h-64 overflow-y-auto">
       <button
         v-for="(command, index) in filteredCommands"
@@ -19,7 +21,7 @@
         <div class="flex-shrink-0">
           <UIcon :name="command.icon" class="w-5 h-5" :class="command.iconClass || 'text-gray-500'" />
         </div>
-        
+
         <div class="flex-1">
           <div class="text-sm font-medium text-gray-900 dark:text-white">
             {{ command.label }}
@@ -28,18 +30,22 @@
             {{ command.description }}
           </div>
         </div>
-        
+
         <div v-if="command.shortcut" class="flex-shrink-0">
           <kbd class="text-xs px-1.5 py-0.5 bg-gray-200 dark:bg-gray-600 rounded">
             {{ command.shortcut }}
           </kbd>
         </div>
       </button>
-      
+
       <div v-if="filteredCommands.length === 0" class="p-4 text-center text-gray-500">
         <UIcon name="i-lucide-search-x" class="w-8 h-8 mx-auto mb-2 text-gray-300" />
-        <p class="text-sm">No blocks found</p>
-        <p class="text-xs">Try a different search term</p>
+        <p class="text-sm">
+          No blocks found
+        </p>
+        <p class="text-xs">
+          Try a different search term
+        </p>
       </div>
     </div>
   </div>
@@ -59,15 +65,15 @@ interface Command {
 }
 
 interface Props {
-  position: { x: number; y: number }
+  position: { x: number, y: number }
   query: string
 }
 
 const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  'select': [command: Command]
-  'close': []
+  select: [command: Command]
+  close: []
 }>()
 
 const selectedIndex = ref(0)
@@ -95,7 +101,7 @@ const commands: Command[] = [
     type: 'heading',
     label: 'Heading 2',
     description: 'Medium section heading',
-    icon: 'i-lucide-heading-2', 
+    icon: 'i-lucide-heading-2',
     iconClass: 'text-blue-500',
     shortcut: '## ',
     category: 'text'
@@ -126,7 +132,7 @@ const commands: Command[] = [
     iconClass: 'text-yellow-500',
     category: 'text'
   },
-  
+
   // List Blocks
   {
     type: 'list',
@@ -155,7 +161,7 @@ const commands: Command[] = [
     shortcut: '[] ',
     category: 'lists'
   },
-  
+
   // Code Blocks
   {
     type: 'code',
@@ -166,7 +172,7 @@ const commands: Command[] = [
     shortcut: '``` ',
     category: 'code'
   },
-  
+
   // Media Blocks
   {
     type: 'image',
@@ -200,7 +206,7 @@ const commands: Command[] = [
     iconClass: 'text-gray-500',
     category: 'media'
   },
-  
+
   // Layout Blocks
   {
     type: 'divider',
@@ -219,7 +225,7 @@ const commands: Command[] = [
     iconClass: 'text-blue-500',
     category: 'layout'
   },
-  
+
   // Data Blocks
   {
     type: 'table',
@@ -229,7 +235,7 @@ const commands: Command[] = [
     iconClass: 'text-green-600',
     category: 'data'
   },
-  
+
   // AI Blocks
   {
     type: 'ai-generated',
@@ -243,12 +249,12 @@ const commands: Command[] = [
 
 const filteredCommands = computed(() => {
   if (!props.query) return commands
-  
+
   const query = props.query.toLowerCase()
-  return commands.filter(command => 
-    command.label.toLowerCase().includes(query) ||
-    command.description.toLowerCase().includes(query) ||
-    command.type.toLowerCase().includes(query)
+  return commands.filter(command =>
+    command.label.toLowerCase().includes(query)
+    || command.description.toLowerCase().includes(query)
+    || command.type.toLowerCase().includes(query)
   )
 })
 
@@ -262,19 +268,19 @@ const handleKeydown = (event: KeyboardEvent) => {
       event.preventDefault()
       selectedIndex.value = Math.max(0, selectedIndex.value - 1)
       break
-      
+
     case 'ArrowDown':
       event.preventDefault()
       selectedIndex.value = Math.min(filteredCommands.value.length - 1, selectedIndex.value + 1)
       break
-      
+
     case 'Enter':
       event.preventDefault()
       if (filteredCommands.value[selectedIndex.value]) {
         selectCommand(filteredCommands.value[selectedIndex.value])
       }
       break
-      
+
     case 'Escape':
       event.preventDefault()
       emit('close')

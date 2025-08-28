@@ -37,7 +37,7 @@ const formatDate = (dateString: string) => {
   const date = new Date(dateString)
   const now = new Date()
   const diff = now.getTime() - date.getTime()
-  
+
   if (diff < 86400000) { // Less than 24 hours
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
   } else if (diff < 604800000) { // Less than 7 days
@@ -104,9 +104,11 @@ const handleManualSave = () => {
     <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
       <div class="flex items-center gap-2">
         <UIcon name="i-lucide-history" class="w-4 h-4" />
-        <h3 class="text-sm font-medium text-gray-900 dark:text-white">Version History</h3>
+        <h3 class="text-sm font-medium text-gray-900 dark:text-white">
+          Version History
+        </h3>
       </div>
-      
+
       <div class="flex items-center gap-1">
         <UButton
           icon="i-lucide-save"
@@ -114,9 +116,11 @@ const handleManualSave = () => {
           variant="ghost"
           @click="showSaveDialog = true"
         />
-        <UDropdown :items="[
-          [{ label: autoSaveEnabled ? 'Disable Auto-save' : 'Enable Auto-save', icon: 'i-lucide-clock', click: () => $emit('toggleAutoSave', !autoSaveEnabled) }]
-        ]">
+        <UDropdown
+          :items="[
+            [{ label: autoSaveEnabled ? 'Disable Auto-save' : 'Enable Auto-save', icon: 'i-lucide-clock', click: () => $emit('toggleAutoSave', !autoSaveEnabled) }]
+          ]"
+        >
           <UButton
             icon="i-lucide-settings"
             size="xs"
@@ -134,12 +138,12 @@ const handleManualSave = () => {
             'w-2 h-2 rounded-full',
             hasUnsavedChanges ? 'bg-yellow-500' : 'bg-green-500'
           ]"
-        ></div>
+        />
         <span class="text-gray-600 dark:text-gray-400">
           {{ hasUnsavedChanges ? 'Unsaved changes' : 'All changes saved' }}
         </span>
       </div>
-      
+
       <div v-if="timeSinceLastSave" class="text-xs text-gray-500">
         Last saved {{ timeSinceLastSave }}
       </div>
@@ -190,13 +194,19 @@ const handleManualSave = () => {
     <div class="max-h-96 overflow-y-auto">
       <div v-if="isLoading" class="p-8 text-center">
         <UIcon name="i-lucide-loader" class="w-6 h-6 animate-spin mx-auto mb-2 text-gray-400" />
-        <p class="text-sm text-gray-500">Loading version history...</p>
+        <p class="text-sm text-gray-500">
+          Loading version history...
+        </p>
       </div>
 
       <div v-else-if="versions.length === 0" class="p-8 text-center">
         <UIcon name="i-lucide-history" class="w-8 h-8 mx-auto mb-2 text-gray-300" />
-        <p class="text-sm text-gray-500">No version history yet</p>
-        <p class="text-xs text-gray-400 mt-1">Changes will appear here</p>
+        <p class="text-sm text-gray-500">
+          No version history yet
+        </p>
+        <p class="text-xs text-gray-400 mt-1">
+          Changes will appear here
+        </p>
       </div>
 
       <div v-else>
@@ -227,18 +237,18 @@ const handleManualSave = () => {
               <span class="text-xs text-gray-500">
                 {{ formatDate(version.createdAt) }}
               </span>
-              <UBadge 
-                :label="version.changeType" 
-                size="xs" 
+              <UBadge
+                :label="version.changeType"
+                size="xs"
                 :color="version.changeType === 'manual' ? 'blue' : version.changeType === 'collaboration' ? 'green' : 'gray'"
                 variant="soft"
               />
             </div>
-            
+
             <p class="text-sm text-gray-600 dark:text-gray-400 truncate">
               {{ version.changeDescription || version.title }}
             </p>
-            
+
             <div class="flex items-center gap-2 mt-1 text-xs text-gray-500">
               <span>{{ formatFileSize(version.size) }}</span>
               <span>•</span>
@@ -271,9 +281,11 @@ const handleManualSave = () => {
   <UModal v-model="showSaveDialog">
     <UCard>
       <template #header>
-        <h3 class="text-lg font-semibold">Save Version</h3>
+        <h3 class="text-lg font-semibold">
+          Save Version
+        </h3>
       </template>
-      
+
       <div class="space-y-4">
         <UFormGroup label="Description (optional)" hint="Describe what changed in this version">
           <UTextarea
@@ -283,7 +295,7 @@ const handleManualSave = () => {
           />
         </UFormGroup>
       </div>
-      
+
       <template #footer>
         <div class="flex justify-end gap-2">
           <UButton
