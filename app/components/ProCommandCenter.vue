@@ -6,7 +6,7 @@
   >
     <!-- Backdrop -->
     <div class="fixed inset-0 bg-black/50 backdrop-blur-sm" @click="close" />
-    
+
     <!-- Command Palette -->
     <div
       class="relative w-full max-w-2xl bg-white dark:bg-gray-900 rounded-lg shadow-2xl overflow-hidden"
@@ -51,7 +51,7 @@
           @keydown.up="navigateUp"
           @keydown.down="navigateDown"
           @keydown.escape="close"
-        />
+        >
         <div
           v-if="isProcessing"
           class="absolute right-4 top-1/2 -translate-y-1/2"
@@ -64,7 +64,9 @@
       <div class="max-h-96 overflow-y-auto border-t border-gray-200 dark:border-gray-800">
         <!-- Quick Actions -->
         <div v-if="!query" class="p-2">
-          <div class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase">Quick Actions</div>
+          <div class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase">
+            Quick Actions
+          </div>
           <button
             v-for="(action, index) in quickActions"
             :key="index"
@@ -74,8 +76,12 @@
           >
             <UIcon :name="action.icon" class="w-5 h-5" :class="action.iconClass" />
             <div class="flex-1 text-left">
-              <div class="text-sm font-medium">{{ action.label }}</div>
-              <div class="text-xs text-gray-500">{{ action.description }}</div>
+              <div class="text-sm font-medium">
+                {{ action.label }}
+              </div>
+              <div class="text-xs text-gray-500">
+                {{ action.description }}
+              </div>
             </div>
             <kbd class="text-xs px-1.5 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">
               {{ action.shortcut }}
@@ -85,7 +91,9 @@
 
         <!-- Search Results -->
         <div v-else-if="searchResults.length" class="p-2">
-          <div class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase">Results</div>
+          <div class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase">
+            Results
+          </div>
           <button
             v-for="(result, index) in searchResults"
             :key="index"
@@ -95,8 +103,12 @@
           >
             <UIcon :name="result.icon" class="w-5 h-5" />
             <div class="flex-1 text-left">
-              <div class="text-sm font-medium">{{ result.title }}</div>
-              <div class="text-xs text-gray-500">{{ result.subtitle }}</div>
+              <div class="text-sm font-medium">
+                {{ result.title }}
+              </div>
+              <div class="text-xs text-gray-500">
+                {{ result.subtitle }}
+              </div>
             </div>
           </button>
         </div>
@@ -112,7 +124,9 @@
         <div v-else-if="query && !isProcessing" class="p-8 text-center text-gray-500">
           <UIcon name="i-lucide-search-x" class="w-12 h-12 mx-auto mb-3 text-gray-300" />
           <p>No results found for "{{ query }}"</p>
-          <p class="text-sm mt-2">Try asking ATHENA a question or use different keywords</p>
+          <p class="text-sm mt-2">
+            Try asking ATHENA a question or use different keywords
+          </p>
         </div>
       </div>
 

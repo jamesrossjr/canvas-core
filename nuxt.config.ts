@@ -21,6 +21,17 @@ export default defineNuxtConfig({
     }
   },
 
+  runtimeConfig: {
+    // Private keys (only available on server-side)
+    supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+
+    // Public keys (exposed to client-side)
+    public: {
+      supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL,
+      supabaseAnonKey: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY
+    }
+  },
+
   experimental: {
     viewTransition: true
   },

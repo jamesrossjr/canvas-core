@@ -6,7 +6,11 @@
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(pnpm add:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(git checkout:*)",
+      "Bash(pnpm dev:*)",
+      "Bash(pnpm run:*)",
+      "Bash(gh pr create:*)"
     ],
     "deny": [],
     "ask": []

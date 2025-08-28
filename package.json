@@ -10,7 +10,10 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "typecheck": "nuxt typecheck",
-    "db:generate": "drizzle-kit generate"
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@ai-sdk/vue": "^1.2.12",
@@ -20,13 +23,24 @@
     "@nuxt/ui-pro": "^3.3.2",
     "@nuxthub/core": "^0.9.0",
     "@nuxtjs/mdc": "^0.17.2",
+    "@supabase/supabase-js": "^2.56.0",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/socket.io-client": "^3.0.0",
+    "@types/three": "^0.179.0",
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/addon-web-links": "^0.11.0",
+    "@xterm/xterm": "^5.5.0",
     "ai": "^4.3.19",
+    "better-sqlite3": "^12.2.0",
     "date-fns": "^4.1.0",
     "drizzle-orm": "^0.44.4",
     "fuse.js": "^7.1.0",
     "nuxt": "^4.0.3",
     "nuxt-auth-utils": "^0.5.23",
     "shiki-stream": "^0.1.2",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
+    "three": "^0.179.1",
     "workers-ai-provider": "^0.7.5"
   },
   "devDependencies": {
