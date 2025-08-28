@@ -22,24 +22,24 @@ function onSubmit() {
 
 const quickChats = [
   {
-    label: 'Why use Nuxt UI Pro?',
-    icon: 'i-logos-nuxt-icon'
+    label: 'Create a new project workspace',
+    icon: 'i-lucide-folder-plus'
   },
   {
-    label: 'Help me create a Vue composable',
-    icon: 'i-logos-vue'
+    label: 'Help me write a technical document',
+    icon: 'i-lucide-file-text'
   },
   {
-    label: 'Tell me more about UnJS',
-    icon: 'i-logos-unjs'
+    label: 'Generate code for my idea',
+    icon: 'i-lucide-code-2'
   },
   {
-    label: 'Why should I consider VueUse?',
-    icon: 'i-logos-vueuse'
+    label: 'Analyze and improve my workflow',
+    icon: 'i-lucide-workflow'
   },
   {
-    label: 'Tailwind CSS best practices',
-    icon: 'i-logos-tailwindcss-icon'
+    label: 'Start a brainstorming session',
+    icon: 'i-lucide-lightbulb'
   }
 ]
 </script>
@@ -53,7 +53,7 @@ const quickChats = [
     <template #body>
       <UContainer class="flex-1 flex flex-col justify-center gap-4 sm:gap-6 py-8">
         <h1 class="text-3xl sm:text-4xl text-highlighted font-bold">
-          How can I help you today?
+          Welcome to Canvas. How can ATHENA assist you today?
         </h1>
 
         <UChatPrompt
