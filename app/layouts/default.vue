@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LazyModalConfirm } from '#components'
+import { LazyModalConfirm, LazyProCommandCenter } from '#components'
 
 const route = useRoute()
 const toast = useToast()
@@ -76,11 +76,38 @@ async function deleteChat(id: string) {
   }
 }
 
+const commandCenter = ref()
+
 defineShortcuts({
   c: () => {
     navigateTo('/')
+  },
+  'cmd_k': () => {
+    commandCenter.value?.open()
+  },
+  'ctrl_k': () => {
+    commandCenter.value?.open()
   }
 })
+
+const handleCommandExecute = (command: any) => {
+  switch (command.action) {
+    case 'create-workspace':
+      navigateTo('/')
+      break
+    case 'start-chat':
+      navigateTo('/')
+      break
+    case 'open-terminal':
+      toast.add({ title: 'Terminal feature coming soon', icon: 'i-lucide-terminal' })
+      break
+    case 'view-3d':
+      toast.add({ title: '3D Workspace coming soon', icon: 'i-lucide-box' })
+      break
+    default:
+      console.log('Executing command:', command)
+  }
+}
 </script>
 
 <template>
@@ -96,7 +123,7 @@ defineShortcuts({
       <template #header="{ collapsed }">
         <NuxtLink to="/" class="flex items-end gap-0.5">
           <Logo class="h-8 w-auto shrink-0" />
-          <span v-if="!collapsed" class="text-xl font-bold text-highlighted">Chat</span>
+          <span v-if="!collapsed" class="text-xl font-bold text-highlighted">Canvas</span>
         </NuxtLink>
 
         <div v-if="!collapsed" class="flex items-center gap-1.5 ms-auto">
@@ -171,5 +198,8 @@ defineShortcuts({
     />
 
     <slot />
+    
+    <!-- ProCommandCenter -->
+    <LazyProCommandCenter ref="commandCenter" @execute="handleCommandExecute" />
   </UDashboardGroup>
 </template>

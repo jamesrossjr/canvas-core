@@ -23,6 +23,7 @@
     "ai": "^4.3.19",
     "date-fns": "^4.1.0",
     "drizzle-orm": "^0.44.4",
+    "fuse.js": "^7.1.0",
     "nuxt": "^4.0.3",
     "nuxt-auth-utils": "^0.5.23",
     "shiki-stream": "^0.1.2",
