@@ -38,9 +38,10 @@ export const useAuth = () => {
 
   // Check if Supabase is properly configured
   const isSupabaseConfigured = () => {
-    return nuxtApp.nuxtApp.$supabase && 
-           nuxtApp.nuxtApp.$supabase.auth &&
-           process.client // Only run on client side
+    return process.client && 
+           nuxtApp && 
+           nuxtApp.$supabase && 
+           nuxtApp.$supabase.auth
   }
 
   // Initialize auth state
@@ -328,8 +329,8 @@ export const useAuth = () => {
     return state.user.workspaces.includes(workspaceId)
   }
 
-  // Initialize on composable creation
-  if (!state.initialized) {
+  // Initialize on composable creation (client-side only)
+  if (process.client && !state.initialized) {
     initialize()
   }
 
