@@ -27,7 +27,7 @@ interface AuthState {
 }
 
 export const useAuth = () => {
-  const { $supabase } = useNuxtApp()
+  const nuxtApp = useNuxtApp()
   const router = useRouter()
 
   const state = reactive<AuthState>({
@@ -36,13 +36,28 @@ export const useAuth = () => {
     initialized: false
   })
 
+  // Check if Supabase is properly configured
+  const isSupabaseConfigured = () => {
+    return nuxtApp.nuxtApp.$supabase && 
+           nuxtApp.nuxtApp.$supabase.auth &&
+           process.client // Only run on client side
+  }
+
   // Initialize auth state
   const initialize = async () => {
     try {
       state.loading = true
 
+      // Check if Supabase is configured
+      if (!isSupabaseConfigured()) {
+        console.warn('Supabase not configured - auth features disabled')
+        state.loading = false
+        state.initialized = true
+        return
+      }
+
       // Get initial session
-      const { data: { session }, error } = await $supabase.auth.getSession()
+      const { data: { session }, error } = await nuxtApp.nuxtApp.$supabase.auth.getSession()
 
       if (error) {
         console.error('Auth initialization error:', error)
@@ -51,7 +66,7 @@ export const useAuth = () => {
       }
 
       // Listen for auth changes
-      $supabase.auth.onAuthStateChange(async (event, session) => {
+      nuxtApp.nuxtApp.$supabase.auth.onAuthStateChange(async (event, session) => {
         console.log('Auth state changed:', event)
 
         if (event === 'SIGNED_IN' && session?.user) {
@@ -106,9 +121,13 @@ export const useAuth = () => {
   // Sign in with email and password
   const signInWithEmail = async (email: string, password: string): Promise<{ success: boolean, error?: string }> => {
     try {
+      if (!isSupabaseConfigured()) {
+        return { success: false, error: 'Authentication not configured' }
+      }
+
       state.loading = true
 
-      const { data, error } = await $supabase.auth.signInWithPassword({
+      const { data, error } = await nuxtApp.nuxtApp.$supabase.auth.signInWithPassword({
         email,
         password
       })
@@ -134,9 +153,13 @@ export const useAuth = () => {
   // Sign up with email and password
   const signUpWithEmail = async (email: string, password: string, fullName?: string): Promise<{ success: boolean, error?: string }> => {
     try {
+      if (!isSupabaseConfigured()) {
+        return { success: false, error: 'Authentication not configured' }
+      }
+
       state.loading = true
 
-      const { data, error } = await $supabase.auth.signUp({
+      const { data, error } = await nuxtApp.nuxtApp.$supabase.auth.signUp({
         email,
         password,
         options: {
@@ -171,7 +194,7 @@ export const useAuth = () => {
     try {
       state.loading = true
 
-      const { data, error } = await $supabase.auth.signInWithOAuth({
+      const { data, error } = await nuxtApp.$supabase.auth.signInWithOAuth({
         provider,
         options: {
           redirectTo: `${window.location.origin}/auth/callback`
@@ -196,7 +219,7 @@ export const useAuth = () => {
     try {
       state.loading = true
 
-      const { error } = await $supabase.auth.signOut()
+      const { error } = await nuxtApp.$supabase.auth.signOut()
 
       if (error) {
         return { success: false, error: error.message }
@@ -217,7 +240,7 @@ export const useAuth = () => {
   // Reset password
   const resetPassword = async (email: string): Promise<{ success: boolean, error?: string }> => {
     try {
-      const { error } = await $supabase.auth.resetPasswordForEmail(email, {
+      const { error } = await nuxtApp.$supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/auth/reset-password`
       })
 
@@ -235,7 +258,7 @@ export const useAuth = () => {
   // Update password
   const updatePassword = async (newPassword: string): Promise<{ success: boolean, error?: string }> => {
     try {
-      const { error } = await $supabase.auth.updateUser({
+      const { error } = await nuxtApp.$supabase.auth.updateUser({
         password: newPassword
       })
 
@@ -253,7 +276,7 @@ export const useAuth = () => {
   // Update user profile
   const updateProfile = async (updates: Partial<Pick<AuthUser, 'name' | 'preferences'>>): Promise<{ success: boolean, error?: string }> => {
     try {
-      const { error } = await $supabase.auth.updateUser({
+      const { error } = await nuxtApp.$supabase.auth.updateUser({
         data: {
           full_name: updates.name
         }

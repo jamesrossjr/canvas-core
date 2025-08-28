@@ -9,7 +9,8 @@
       "Bash(curl:*)",
       "Bash(git checkout:*)",
       "Bash(pnpm dev:*)",
-      "Bash(pnpm run:*)"
+      "Bash(pnpm run:*)",
+      "Bash(gh pr create:*)"
     ],
     "deny": [],
     "ask": []
