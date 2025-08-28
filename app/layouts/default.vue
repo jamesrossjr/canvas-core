@@ -93,7 +93,13 @@ defineShortcuts({
 const handleCommandExecute = (command: any) => {
   switch (command.action) {
     case 'create-workspace':
-      navigateTo('/')
+      // Generate a simple workspace ID for demo
+      const workspaceId = 'ws-' + Math.random().toString(36).substr(2, 9)
+      navigateTo(`/workspace/${workspaceId}`)
+      break
+    case 'open-editor':
+      // Navigate to a demo workspace
+      navigateTo('/workspace/demo')
       break
     case 'start-chat':
       navigateTo('/')

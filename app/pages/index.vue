@@ -23,7 +23,8 @@ function onSubmit() {
 const quickChats = [
   {
     label: 'Create a new project workspace',
-    icon: 'i-lucide-folder-plus'
+    icon: 'i-lucide-folder-plus',
+    action: 'workspace'
   },
   {
     label: 'Help me write a technical document',
@@ -80,7 +81,7 @@ const quickChats = [
             color="neutral"
             variant="outline"
             class="rounded-full"
-            @click="createChat(quickChat.label)"
+            @click="quickChat.action === 'workspace' ? navigateTo('/workspace/demo') : createChat(quickChat.label)"
           />
         </div>
       </UContainer>
